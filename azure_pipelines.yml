@@ -1,0 +1,44 @@
+name: PlaywrightTest-$(date:yyyyMMdd)$(rev:.r)
+
+trigger:
+- main
+
+resources:
+  repositories:
+    - repository: YourRepoName
+      type: github
+      name: YourGitHubUsername/YourRepoName
+      ref: main
+      endpoint: github.com_YourGitHubUsername
+
+parameters:
+ - name: image
+   displayName: Pool Image
+   type: string
+   default: ubuntu-latest
+   values:
+   - ubuntu-latest
+   - windows-latest
+
+jobs:
+- job: "PlaywrightTest"
+  pool:
+    vmImage: ${{ parameters.image }}
+
+  steps:
+  - checkout: self
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install pytest playwright pyotp
+      playwright install
+    displayName: 'Install Dependencies'
+
+  - script: |
+      pytest test2.py
+    displayName: 'Run Playwright Test'
