@@ -23,7 +23,7 @@ def get_totp_code(secret_key):
 ])
 def test_powerapps_login(credentials):
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False, slow_mo=50)
+        browser = p.chromium.launch(headless=True, slow_mo=50)
         
         context = browser.new_context()
         page = context.new_page()
