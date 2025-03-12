@@ -23,11 +23,7 @@ def get_totp_code(secret_key):
 ])
 def test_powerapps_login(credentials):
     with sync_playwright() as p:
-        browser = p.chromium.launch(
-            executable_path='/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
-            headless=False,
-            slow_mo=50
-        )
+        browser = p.chromium.launch(headless=False, slow_mo=50)
         
         context = browser.new_context()
         page = context.new_page()
@@ -73,8 +69,6 @@ def test_powerapps_login(credentials):
             
             print("Prihlásenie úspešné!")
             time.sleep(10)  # počkáme na konci
-            
-            input("Stlačte Enter pre ukončenie...")
             
         except Exception as e:
             print(f"Nastala chyba: {str(e)}")
